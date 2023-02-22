@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - ace-tekton-workspace.yaml
+  - build-ace-helloworld-pipeline.yaml
   - https://raw.githubusercontent.com/thomas-mattsson/s2i-ace/main/tekton/tasks/s2i-ace-overlay-task.yaml
   - https://raw.githubusercontent.com/thomas-mattsson/s2i-ace/main/tekton/tasks/s2i-ace-task.yaml
   - https://raw.githubusercontent.com/thomas-mattsson/s2i-ace/main/buildconfig/buildconfig.yaml
