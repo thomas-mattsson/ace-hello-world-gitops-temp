@@ -26,6 +26,6 @@ spec:
   designerFlowsOperationMode: disabled
   createDashboardUsers: true
   service:
-    endpointType: http
+    endpointType: https
   version: 12.0.7.0-r2
   replicas: 1
