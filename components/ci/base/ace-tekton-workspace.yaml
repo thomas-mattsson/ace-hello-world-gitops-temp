@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: ace-tekton-workspace
+  namespace: ace-hello-world
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: PATCHED_BY_KUSTOMIZE
+  volumeMode: Filesystem
