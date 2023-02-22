@@ -5,6 +5,9 @@ metadata:
   namespace: ace-hello-world
 spec:
   enableMetrics: true
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '9483'
   license:
     accept: true
     license: L-APEH-CJUCNR
