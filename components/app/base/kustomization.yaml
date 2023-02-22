@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - helloworld-integrationserver.yaml
-  - ace-certificate.yaml
+  - ace-helloworld-integrationserver.yaml
+  - certificate.yaml
   - certificate.yaml
   - self-signed-issuer.yaml
