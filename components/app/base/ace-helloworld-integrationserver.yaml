@@ -21,11 +21,12 @@ spec:
             cpu: 300m
             memory: 368Mi
   adminServerSecure: true
+  forceFlowHTTPS:
+    enabled: true
+    secretName: ace-certificate-secret
   router:
     timeout: 120s
   designerFlowsOperationMode: disabled
   createDashboardUsers: true
-  service:
-    endpointType: https
   version: 12.0.7.0-r2
   replicas: 1
