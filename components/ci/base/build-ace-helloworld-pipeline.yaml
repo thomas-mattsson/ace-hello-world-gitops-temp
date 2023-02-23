@@ -113,7 +113,7 @@ spec:
       workspaces:
         - name: source
           workspace: ace-tekton-workspace
-     - name: git-cli-commit-deployment-yaml
+    - name: git-cli-commit-deployment-yaml
       runAfter: 
         - yq-update-image-in-deployment
       taskRef:
