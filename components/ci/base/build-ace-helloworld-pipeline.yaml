@@ -102,9 +102,9 @@ spec:
             
             ls -lth gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
             
-            #yq -i '.spec.template.spec.containers[0].image = "image-registry.openshift-image-registry.svc:5000/ibmoffices/ibmoffices:$(tasks.git-clone-ace-application.results.commit)"' gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
+            yq -i '.spec.pod.containers.runtime.image. = "image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)"' gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
             
-            #cat gitops-config/components/app/base/deployment.yaml
+            cat gitops-config/components/app/base/deployment.yaml
         - name: image
           value: >-
             docker.io/mikefarah/yq:4.27.5@sha256:2be3626ed633fbe1fc33ee9343a1256a6be53334412b2251b9a859f8c145bb53
@@ -140,9 +140,9 @@ spec:
                 exit 0
             fi
             
-            #git add -u .
-            #git commit -m "Updated deployment based on application code $(tasks.git-clone-ace-application.results.commit)"
-            #git push origin HEAD:main
+            git add -u .
+            git commit -m "Updated deployment of ace-hello-world app based on application code $(tasks.git-clone-ace-application.results.commit)"
+            git push origin HEAD:main
         - name: USER_HOME
           value: /root
         - name: VERBOSE
