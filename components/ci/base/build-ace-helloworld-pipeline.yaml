@@ -32,7 +32,7 @@ spec:
       workspaces:
         - name: output
           workspace: ace-tekton-workspace
-    - name: s2i-ace
+    - name: s2i-ace-build-ace-image
       params:
         - name: PATH_CONTEXT
           value: .
