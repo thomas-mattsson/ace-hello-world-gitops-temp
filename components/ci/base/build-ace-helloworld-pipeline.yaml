@@ -112,6 +112,6 @@ spec:
           value: []
       workspaces:
         - name: source
-          workspace: workspace
+          workspace: ace-tekton-workspace
   workspaces:
     - name: ace-tekton-workspace
