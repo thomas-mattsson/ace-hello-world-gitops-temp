@@ -154,3 +154,4 @@ spec:
           workspace: github-pat
   workspaces:
     - name: ace-tekton-workspace
+    - name: github-pat
