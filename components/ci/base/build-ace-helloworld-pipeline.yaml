@@ -77,8 +77,10 @@ spec:
             export DEPLOYMENT_MANIFEST=gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
 
             ls -lth $DEPLOYMENT_MANIFEST
+
+            echo Updating using revision $(tasks.git-clone-ace-application.results.commit)
             
-            yq -i '.spec.pod.containers.runtime.image. = "image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)"' $DEPLOYMENT_MANIFEST
+            yq -i '.spec.pod.containers.runtime.image = "image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)"' $DEPLOYMENT_MANIFEST
             
             cat $DEPLOYMENT_MANIFEST
         - name: image
