@@ -19,6 +19,8 @@ spec:
           value: ca-bundle.crt
         - name: deleteExisting
           value: 'true'
+        - name: subdirectory
+          value: application-code
         - name: verbose
           value: 'true'
         - name: gitInitImage
@@ -35,7 +37,7 @@ spec:
     - name: s2i-ace-build-ace-image
       params:
         - name: PATH_CONTEXT
-          value: .
+          value: application-code
         - name: TLSVERIFY
           value: 'true'
         - name: LICENSE
