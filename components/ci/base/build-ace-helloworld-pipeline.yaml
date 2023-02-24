@@ -88,7 +88,7 @@ spec:
             image-registry.openshift-image-registry.svc:5000/ace-hello-world/s2i-ace:12.0.7.0-r2
         - name: IMAGE
           value: >-
-            image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit) 
+            image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)
       workspaces:
         - name: source
           workspace: ace-tekton-workspace
