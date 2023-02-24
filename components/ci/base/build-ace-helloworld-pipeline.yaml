@@ -6,6 +6,9 @@ metadata:
 spec:
   tasks:
     - name: git-clone-ace-application
+      taskRef:
+        kind: ClusterTask
+        name: git-clone-1-8-0
       params:
         - name: url
           value: 'https://github.com/Nordic-MVP-GitOps-Repos/ace-hello-world'
@@ -28,13 +31,13 @@ spec:
             registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:a538c423e7a11aae6ae582a411fdb090936458075f99af4ce5add038bb6983e8
         - name: userHome
           value: /tekton/home
-      taskRef:
-        kind: ClusterTask
-        name: git-clone-1-8-0
       workspaces:
         - name: output
           workspace: ace-tekton-workspace
     - name: git-clone-gitops-config
+      taskRef:
+        kind: ClusterTask
+        name: git-clone-1-8-0
       params:
         - name: url
           value: 'https://github.com/Nordic-MVP-GitOps-Repos/ace-hello-world-gitops'
@@ -57,19 +60,44 @@ spec:
             registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:a538c423e7a11aae6ae582a411fdb090936458075f99af4ce5add038bb6983e8
         - name: userHome
           value: /tekton/home
-      taskRef:
-        kind: ClusterTask
-        name: git-clone-1-8-0
       workspaces:
         - name: output
           workspace: ace-tekton-workspace
-    - name: yq-update-image-in-deployment
+    - name: s2i-ace-build-ace-image
+      taskRef:
+        kind: Task
+        name: s2i-ace
       runAfter:
+        - git-clone-ace-application
         - git-clone-gitops-config
-        #- s2i-ace-build-ace-image
+      params:
+        - name: PATH_CONTEXT
+          value: application-code
+        - name: TLSVERIFY
+          value: 'true'
+        - name: LICENSE
+          value: accept
+        - name: commit_id
+          value: NA
+        - name: commit_message
+          value: NA
+        - name: commit_user
+          value: NA
+        - name: BUILD_IMAGE
+          value: >-
+            image-registry.openshift-image-registry.svc:5000/ace-hello-world/s2i-ace:12.0.7.0-r2
+        - name: IMAGE
+          value: >-
+            image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit) 
+      workspaces:
+        - name: source
+          workspace: ace-tekton-workspace
+    - name: yq-update-image-in-deployment
       taskRef:
         kind: Task
         name: yq
+      runAfter:
+        - s2i-ace-build-ace-image
       params:
         - name: SCRIPT
           value: |
@@ -92,11 +120,11 @@ spec:
         - name: source
           workspace: ace-tekton-workspace
     - name: git-cli-commit-deployment-yaml
-      runAfter: 
-        - yq-update-image-in-deployment
       taskRef:
         kind: ClusterTask
         name: git-cli
+      runAfter: 
+        - yq-update-image-in-deployment
       params:
         - name: BASE_IMAGE
           value: >-
