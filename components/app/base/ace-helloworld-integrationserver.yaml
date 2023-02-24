@@ -15,7 +15,7 @@ spec:
   pod:
     containers:
       runtime:
-        image: image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:95f8271c41156cb942bff1ebeae59f79d4e34557
+        image: image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:4f2ca0fd1f279e076e5d8d4e723a7a3f41c1fa7e
         resources:
           limits:
             cpu: 300m
