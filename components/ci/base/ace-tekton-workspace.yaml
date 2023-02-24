@@ -5,7 +5,7 @@ metadata:
   namespace: ace-hello-world
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
