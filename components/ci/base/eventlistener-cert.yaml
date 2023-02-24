@@ -21,4 +21,4 @@ spec:
   dnsNames:
     - '*'
   issuerRef:
-    name: quarkus-ss-issuer
+    name: ace-selfsigned-issuer
