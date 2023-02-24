@@ -65,6 +65,7 @@ spec:
           workspace: ace-tekton-workspace
     - name: yq-update-image-in-deployment
       runAfter:
+        - git-clone-gitops-config
         #- s2i-ace-build-ace-image
       taskRef:
         kind: Task
