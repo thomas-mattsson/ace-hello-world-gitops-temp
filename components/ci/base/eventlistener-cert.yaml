@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: eventlistener-certificate-secret
   duration: 2160h0m0s # 90d
-  renewBefore: 360h0m0s # 15d
+  renewBefore: 360h0m0s # 15days
   subject:
     organizations:
       - ace-hello-world
