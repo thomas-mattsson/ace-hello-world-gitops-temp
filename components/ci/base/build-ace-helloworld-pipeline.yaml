@@ -34,35 +34,6 @@ spec:
       workspaces:
         - name: output
           workspace: ace-tekton-workspace
-    - name: s2i-ace-build-ace-image
-      params:
-        - name: PATH_CONTEXT
-          value: application-code
-        - name: TLSVERIFY
-          value: 'true'
-        - name: LICENSE
-          value: accept
-        - name: commit_id
-          value: NA
-        - name: commit_message
-          value: NA
-        - name: commit_user
-          value: NA
-        - name: BUILD_IMAGE
-          value: >-
-            image-registry.openshift-image-registry.svc:5000/ace-hello-world/s2i-ace:12.0.7.0-r2
-        - name: IMAGE
-          value: >-
-            image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)
-      runAfter:
-        #- git-clone-ace-application
-        #- git-clone-gitops-config
-      taskRef:
-        kind: Task
-        name: s2i-ace
-      workspaces:
-        - name: source
-          workspace: ace-tekton-workspace
     - name: git-clone-gitops-config
       params:
         - name: url
@@ -94,7 +65,6 @@ spec:
           workspace: ace-tekton-workspace
     - name: yq-update-image-in-deployment
       runAfter:
-        - git-clone-gitops-config
         #- s2i-ace-build-ace-image
       taskRef:
         kind: Task
@@ -103,7 +73,7 @@ spec:
         - name: SCRIPT
           value: |
             
-            DEPLOYMENT_MANIFEST = gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
+            export DEPLOYMENT_MANIFEST=gitops-config/components/app/base/ace-helloworld-integrationserver.yaml
 
             ls -lth $DEPLOYMENT_MANIFEST
             
