@@ -55,8 +55,8 @@ spec:
           value: >-
             image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:$(tasks.git-clone-ace-application.results.commit)
       runAfter:
-        - git-clone-ace-application
-        - git-clone-gitops-config
+        #- git-clone-ace-application
+        #- git-clone-gitops-config
       taskRef:
         kind: Task
         name: s2i-ace
