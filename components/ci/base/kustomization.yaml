@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - ace-tekton-workspace.yaml
   - build-ace-helloworld-pipeline.yaml
-  - evemtlistener-cert.yaml
+  - eventlistener-cert.yaml
   - eventlistener-route.yaml
   - eventlistener.yaml
   - trigger-template.yaml
