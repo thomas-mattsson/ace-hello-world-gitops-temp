@@ -15,17 +15,11 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        annotations:
-          pipeline.openshift.io/started-by: 'kube:admin'
         generateName: build-ace-hello-world-
-        labels:
-          app.kubernetes.io/instance: ace-hello-world-ci
-          tekton.dev/pipeline: build-ace-hello-world
         namespace: ace-hello-world
       spec:
         pipelineRef:
           name: build-ace-hello-world
-        status: null
         workspaces:
           - name: ace-tekton-workspace
             persistentVolumeClaim:

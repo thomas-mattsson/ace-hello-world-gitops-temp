@@ -31,7 +31,7 @@ spec:
         - kind: ClusterTriggerBinding
           ref: github-push
       template:
-        ref: trigger-template
+        ref: trigger-template-build-ace-hello-world
 
 
 
