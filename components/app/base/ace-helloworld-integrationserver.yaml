@@ -32,4 +32,4 @@ spec:
   designerFlowsOperationMode: disabled
   createDashboardUsers: true
   version: 12.0.7.0-r2
-  #replicas: 1
+  replicas: 1
