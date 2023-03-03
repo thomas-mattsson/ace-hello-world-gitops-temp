@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: hpa-ace-helloworld-cpu-usage
+  name: ace-helloworld-cpu-usage
   namespace: ace-hello-world
 spec:
   scaleTargetRef:
