@@ -1,0 +1,23 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-ace-helloworld-cpu-usage
+  namespace: ace-hello-world
+spec:
+  scaleTargetRef:
+    apiVersion: appconnect.ibm.com/v1beta1
+    kind: IntegrationServer
+    name: ace-hello-world-is
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          averageUtilization: 30
+          type: Utilization
+  behavior:
+    scaleDown:
+      # Short stabilization window for scaling down for illustrative purposes.
+      stabilizationWindowSeconds: 30
