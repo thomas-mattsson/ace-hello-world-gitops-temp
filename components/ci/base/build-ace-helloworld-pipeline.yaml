@@ -8,7 +8,7 @@ spec:
     - name: git-clone-ace-application
       taskRef:
         kind: ClusterTask
-        name: git-clone-1-8-0
+        name: git-clone
       params:
         - name: url
           value: 'https://github.com/Nordic-MVP-GitOps-Repos/ace-hello-world'
@@ -37,7 +37,7 @@ spec:
     - name: git-clone-gitops-config
       taskRef:
         kind: ClusterTask
-        name: git-clone-1-8-0
+        name: git-clone
       params:
         - name: url
           value: 'https://github.com/Nordic-MVP-GitOps-Repos/ace-hello-world-gitops'
