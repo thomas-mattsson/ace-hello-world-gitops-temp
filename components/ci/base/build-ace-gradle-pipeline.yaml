@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-ace-gradle-pipeline
+spec:
+  params:
+    - name: gitrepo
+      type: string
+    - name: gituser
+      type: string
+    - description: secret with github token in key token
+      name: gittokensecret
+      type: string
+  tasks:
+    - name: build-ace-gradle
+      params:
+        - name: GIT_USER
+          value: $(params.gituser)
+        - name: GITHUB_TOKEN_SECRET
+          value: $(params.gittokensecret)
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: build-ace-gradle
+      workspaces:
+        - name: source
+          workspace: source
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.gitrepo)
+        - name: revision
+          value: ''
+        - name: refspec
+          value: ''
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '1'
+        - name: sslVerify
+          value: 'true'
+        - name: crtFileName
+          value: ca-bundle.crt
+        - name: subdirectory
+          value: ''
+        - name: sparseCheckoutDirectories
+          value: ''
+        - name: deleteExisting
+          value: 'true'
+        - name: httpProxy
+          value: ''
+        - name: httpsProxy
+          value: ''
+        - name: noProxy
+          value: ''
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: >-
+            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:e29585c67da42f3800f250c9c60159453af6ee7b4fff5669e27e17f34136a1d3
+        - name: userHome
+          value: /home/git
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: source
+        - name: basic-auth
+          workspace: git-credentials
+  workspaces:
+    - name: source
+    - name: git-credentials
+      optional: true
