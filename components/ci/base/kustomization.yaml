@@ -9,6 +9,7 @@ resources:
   - eventlistener.yaml
   - trigger-template.yaml
   - build-ace-gradle-task.yaml
+  - build-ace-gradle-pipeline.yaml
   - https://raw.githubusercontent.com/tektoncd/catalog/main/task/yq/0.4/yq.yaml
   - https://raw.githubusercontent.com/thomas-mattsson/s2i-ace/main/tekton/tasks/s2i-ace-overlay-task.yaml
   - https://raw.githubusercontent.com/thomas-mattsson/s2i-ace/main/tekton/tasks/s2i-ace-task.yaml
