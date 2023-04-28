@@ -1,0 +1,56 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-ace-gradle
+spec:
+  params:
+    - name: GIT_USER
+      type: string
+    - description: secret with github token in key named token
+      name: GITHUB_TOKEN_SECRET
+      type: string
+    - default: 7.5.1
+      name: GRADLE_VERSION
+      type: string
+    - default: ''
+      name: GRADLE_TASK
+      type: string
+  steps:
+    - env:
+        - name: USERNAME
+          value: $(params.GIT_USER)
+        - name: TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: token
+              name: $(params.GITHUB_TOKEN_SECRET)
+      image: >-
+        cp.icr.io/cp/appc/ace-server-prod:12.0.7.0-r4-20230222-094320@sha256:558e2d74fdd4ea291d56eab1360167294e3385defa7fe1f4701b27dbb6e6bba6
+      name: build
+      resources: {}
+      script: >
+        #!/usr/bin/env bash
+
+        export GRADLE_HOME=/home/aceuser/gradle-$(params.GRADLE_VERSION)
+
+        export PATH=$PATH:$GRADLE_HOME/bin
+
+        export GRADLE_ZIP=gradle-$(params.GRADLE_VERSION)-bin.zip
+
+        cd /home/aceuser
+
+        curl -L https://services.gradle.org/distributions/${GRADLE_ZIP} -o
+        ${GRADLE_ZIP}
+
+        unzip ${GRADLE_ZIP}
+
+        rm ${GRADLE_ZIP}
+
+        echo $PATH
+
+        gradle --info --no-daemon -g /home/aceuser/.gradle -p /workspace/source
+        $(params.GRADLE_TASK)
+      workingDir: /workspace/source
+  workspaces:
+    - mountPath: /workspace/source
+      name: source
