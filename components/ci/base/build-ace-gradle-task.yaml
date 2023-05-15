@@ -15,6 +15,10 @@ spec:
     - default: ''
       name: GRADLE_TASK
       type: string
+    - default: cp.icr.io/cp/appc/ace-server-prod@sha256:c41154c17a30bbbb6e1e4593c965f49ef3c86260e71143b8f33a6fbca277a3b9
+      name: ACE_IMAGE
+      type: string
+      description: 'App Connect image from here: https://www.ibm.com/docs/en/app-connect/containers_cd?topic=obtaining-app-connect-enterprise-server-image-from-cloud-container-registry. Defaults to 12.0.8.0-r1'
   steps:
     - env:
         - name: USERNAME
@@ -24,33 +28,39 @@ spec:
             secretKeyRef:
               key: token
               name: $(params.GITHUB_TOKEN_SECRET)
-      image: >-
-        cp.icr.io/cp/appc/ace-server-prod:12.0.7.0-r4-20230222-094320@sha256:558e2d74fdd4ea291d56eab1360167294e3385defa7fe1f4701b27dbb6e6bba6
+      image: $(params.ACE_IMAGE)
       name: build
       resources: {}
-      script: >
+      script: |
         #!/usr/bin/env bash
-
-        export GRADLE_HOME=/home/aceuser/gradle-$(params.GRADLE_VERSION)
-
+        export GRADLE_HOME=/home/aceuser/gradle/gradle-$(params.GRADLE_VERSION)
+        export GRADLE_USER_HOME=/home/aceuser/gradle
         export PATH=$PATH:$GRADLE_HOME/bin
-
         export GRADLE_ZIP=gradle-$(params.GRADLE_VERSION)-bin.zip
-
-        cd /home/aceuser
-
-        curl -L https://services.gradle.org/distributions/${GRADLE_ZIP} -o
-        ${GRADLE_ZIP}
-
-        unzip ${GRADLE_ZIP}
-
-        rm ${GRADLE_ZIP}
-
-        echo $PATH
-
-        gradle --info --no-daemon -g /home/aceuser/.gradle -p /workspace/source
-        $(params.GRADLE_TASK)
+        mkdir -p $GRADLE_USER_HOME
+        if [ ! -d $GRADLE_HOME ]; then
+          cd $GRADLE_USER_HOME
+          curl -L https://services.gradle.org/distributions/${GRADLE_ZIP} -o ${GRADLE_ZIP}
+          unzip ${GRADLE_ZIP}
+          rm ${GRADLE_ZIP}
+        fi
+        cp /opt/ibm/ace-12/common/jdk/jre/lib/security/cacerts $GRADLE_USER_HOME
+        if [ -f /workspace/extra-ca/ca.crt ]; then
+          echo "Importing extra CA"
+          openssl x509 -in /workspace/extra-ca/ca.crt -inform pem -out /tmp/ca.der -outform der
+          # keytool -v -printcert -file /tmp/ca.der
+          keytool -importcert -noprompt -alias extra-ca -keystore $GRADLE_USER_HOME/cacerts -storepass changeit -file /tmp/ca.der
+          keytool -keystore $GRADLE_USER_HOME/cacerts -storepass changeit -list | grep extra-ca
+          rm /tmp/ca.der
+        fi
+        gradle --info --no-daemon -Djavax.net.ssl.trustStore=$GRADLE_USER_HOME/cacerts -Djavax.net.ssl.trustStorePassword=changeit -g $GRADLE_USER_HOME/.gradle -p /workspace/source $(params.GRADLE_TASK)
       workingDir: /workspace/source
   workspaces:
     - mountPath: /workspace/source
       name: source
+    - mountPath: /home/aceuser/gradle
+      name: cache
+      optional: true
+    - mountPath: /workspace/extra-ca
+      name: extra-ca
+      optional: true

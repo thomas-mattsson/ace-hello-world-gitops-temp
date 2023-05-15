@@ -26,6 +26,10 @@ spec:
       workspaces:
         - name: source
           workspace: source
+        - name: cache
+          workspace: gradle-cache
+        - name: extra-ca
+          workspace: extra-ca
     - name: git-clone
       params:
         - name: url
@@ -72,4 +76,8 @@ spec:
   workspaces:
     - name: source
     - name: git-credentials
+      optional: true
+    - name: extra-ca
+      optional: true
+    - name: gradle-cache
       optional: true
