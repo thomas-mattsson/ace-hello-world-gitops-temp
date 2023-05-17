@@ -12,17 +12,6 @@ spec:
     accept: true
     license: L-APEH-CJUCNR
     use: CloudPakForIntegrationNonProductionFREE
-  pod:
-    containers:
-      runtime:
-        image: image-registry.openshift-image-registry.svc:5000/ace-hello-world/ace-hello-world:4f2ca0fd1f279e076e5d8d4e723a7a3f41c1fa7e
-        resources:
-          limits:
-            cpu: 300m
-            memory: 368Mi
-          requests:
-            cpu: 300m
-            memory: 368Mi
   adminServerSecure: true
   forceFlowHTTPS:
     enabled: true
@@ -33,3 +22,4 @@ spec:
   createDashboardUsers: true
   version: 12.0.7.0-r2
   replicas: 1
+  barURL: https://nexus-nexus.apps.eyf1y3w8.eastus.aroapp.io/repository/myrepo/ace-hello-world/MyExampleApplication/unspecified/MyExampleApplication-unspecified.bar
