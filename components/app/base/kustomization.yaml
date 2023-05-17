@@ -6,4 +6,5 @@ resources:
   - ace-helloworld-integrationserver.yaml
   - certificate.yaml
   - self-signed-issuer.yaml
+  - nexus-barauth.yaml
   #- hpa.yaml
