@@ -23,3 +23,5 @@ spec:
   version: 12.0.7.0-r2
   replicas: 1
   barURL: https://nexus-nexus.apps.eyf1y3w8.eastus.aroapp.io/repository/myrepo/ace-hello-world/MyExampleApplication/unspecified/MyExampleApplication-unspecified.bar
+  configurations:
+    - nexus-barauth
