@@ -1,0 +1,7 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: Configuration
+metadata:
+  name: nexus-barauth
+spec:
+  secretName: nexus-barauth
+  type: barauth
